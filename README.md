@@ -1,6 +1,7 @@
 # TripCalculator
 
-TripCalculator is a Complete CRUD app written in Asp.net Core 3.1 with ReactJs for front-end
+TripCalculator is a Complete CRUD app written in Asp.net Core 3.1 with ReactJs for front-end.
+Note - Everytime you save a record in the site, you might need to refresh the page to see results.
 
 
 
