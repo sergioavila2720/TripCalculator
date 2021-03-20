@@ -29,8 +29,8 @@ export class AddExpenses extends React.Component {
         const data = await request.json();
 
         const options = data.map(t0 => ({
-            "value": t0.StudentId,
-            "label": t0.Name
+            "value": t0.studentId,
+            "label": t0.name
         }));
         this.setState({ title: "Create", expense: new Expense, options: options, loading: false })
         
@@ -47,7 +47,7 @@ export class AddExpenses extends React.Component {
         return <div>
             <h1>{this.state.title} Expense</h1>
             <hr />
-            {contents}
+            {contents}            
         </div>
     }
 

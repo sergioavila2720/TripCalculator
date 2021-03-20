@@ -23,11 +23,14 @@ namespace TripCalc
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //services.AddControllersWithViews();
-            services
-            .AddControllersWithViews()
-            .AddJsonOptions(options =>
-                options.JsonSerializerOptions.PropertyNamingPolicy = null);
+            services.AddControllersWithViews();
+            //services
+            //.AddControllersWithViews()
+            //.AddJsonOptions(options =>
+            //    options.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             // Add the Kendo UI services to the services container.
             //services.AddKendo();

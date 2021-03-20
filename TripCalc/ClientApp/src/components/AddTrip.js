@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 
 export class Trip {
     constructor() {
-        this.TripId = 0;
-        this.TripName = "";
-        this.TripCost = 0.0;
+        this.tripId = 0;
+        this.tripName = "";
+        this.tripCost = 0.0;
     }
 }
 
@@ -53,8 +53,8 @@ export class AddTrip extends Component {
 
         const data = new FormData(event.target);
 
-        if (this.state.trip.TripId) {
-            var response1 = fetch('api/tripsapi/' + this.state.trip.TripId, { method: 'PUT', body: data });
+        if (this.state.trip.tripId) {
+            var response1 = fetch('api/tripsapi/' + this.state.trip.tripId, { method: 'PUT', body: data });
             this.props.history.push('/fetch-trips');
         }
         else {
@@ -72,16 +72,16 @@ export class AddTrip extends Component {
         return (
             <form onSubmit={this.handleSave}>
                 <div className="form-group row">
-                    <input type="hidden" name="tripId" value={this.state.trip.TripId} />
+                    <input type="hidden" name="tripId" value={this.state.trip.tripId} />
                 </div>
                 <div className="form-group row">
                     <label className="control-label col-md-12" htmlFor="tripName" >Name</label>
                     <div className="col-md-4" >
-                        <input type="text" name="tripName" defaultValue={this.state.trip.TripName} className="form-control" />
+                        <input type="text" name="tripName" defaultValue={this.state.trip.tripName} className="form-control" />
                     </div>
                     <label className="control-label col-md-12" htmlFor="TripCost" >Cost</label>
                     <div className="col-md-4" >
-                        <input type="number" min="0.01" step="0.01" name="TripCost" defaultValue={this.state.trip.TripCost} className="form-control" />
+                        <input disabled type="number" min="0.01" step="0.01" name="TripCost" defaultValue={this.state.trip.tripCost} className="form-control" />
                     </div>
                 </div>
 

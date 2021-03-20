@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TripCalc.Models;
 
 namespace TripCalc.Migrations
 {
     [DbContext(typeof(TripCalcDbContext))]
-    partial class TripCalcDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210319201029_UpdateNavigationProperties")]
+    partial class UpdateNavigationProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

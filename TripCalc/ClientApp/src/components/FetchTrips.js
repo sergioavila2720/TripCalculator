@@ -41,21 +41,21 @@ export class FetchTrips extends Component {
                         <th></th>
                         <th>Trip Id</th>
                         <th>Trip Destination</th>
-                        <th>Trip Total Cost</th>
+                        <th>Total Cost</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {trips.map(trip =>
-                        <tr key={trip.TripId}>
+                        <tr key={trip.tripId}>
                             <td></td>
-                            <td>{trip.TripId}</td>
-                            <td>{trip.TripName}</td>
-                            <td>{trip.TripCost}</td>
+                            <td>{trip.tripId}</td>
+                            <td>{trip.tripName}</td>
+                            <td>{trip.tripCost}</td>
                             <td>
-                                <button className="btn btn-success" onClick={(id) => this.handleEdit(trip.TripId)}  >Edit</button>&nbsp;
-                                <button className="btn btn-success" onClick={(id) => this.handleViewExpenses(trip.TripId)}  >Expenses</button>&nbsp;
-                                <button className="btn btn-danger" onClick={(id) => this.handleDelete(trip.TripId, trip.TripName)}  >Delete</button>&nbsp;
+                                <button className="btn btn-success" onClick={(id) => this.handleEdit(trip.tripId)}  >Edit</button>&nbsp;
+                                <button className="btn btn-success" onClick={(id) => this.handleViewExpenses(trip.tripId)}  >Expenses</button>&nbsp;
+                                <button className="btn btn-danger" onClick={(id) => this.handleDelete(trip.TripId, trip.tripName)}  >Delete</button>&nbsp;
                             </td>
                         </tr>    
                     )}
