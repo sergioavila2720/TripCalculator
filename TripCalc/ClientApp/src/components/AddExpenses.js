@@ -74,7 +74,7 @@ export class AddExpenses extends React.Component {
                 <div className="form-group row">
                     <label className="control-label col-md-12" htmlFor="name" >Expense Name</label>
                     <div className="col-md-4" >
-                        <input type="text" name="name" defaultValue={this.state.expense.name} className="form-control" />
+                        <input type="text" name="name" required defaultValue={this.state.expense.name} className="form-control" />
                     </div>
                     <label className="control-label col-md-12" htmlFor="price" >Expense cost</label>
                     <div className="col-md-4" >

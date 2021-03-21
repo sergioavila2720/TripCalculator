@@ -77,7 +77,7 @@ export class AddTrip extends Component {
                 <div className="form-group row">
                     <label className="control-label col-md-12" htmlFor="tripName" >Name</label>
                     <div className="col-md-4" >
-                        <input type="text" name="tripName" defaultValue={this.state.trip.tripName} className="form-control" />
+                        <input type="text" name="tripName" required defaultValue={this.state.trip.tripName} className="form-control" />
                     </div>
                     <label className="control-label col-md-12" htmlFor="TripCost" >Cost</label>
                     <div className="col-md-4" >

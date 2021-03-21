@@ -24,10 +24,6 @@ namespace TripCalc
         {
 
             services.AddControllersWithViews();
-            //services
-            //.AddControllersWithViews()
-            //.AddJsonOptions(options =>
-            //    options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);

@@ -55,7 +55,7 @@ export class FetchTrips extends Component {
                             <td>
                                 <button className="btn btn-success" onClick={(id) => this.handleEdit(trip.tripId)}  >Edit</button>&nbsp;
                                 <button className="btn btn-success" onClick={(id) => this.handleViewExpenses(trip.tripId)}  >Expenses</button>&nbsp;
-                                <button className="btn btn-danger" onClick={(id) => this.handleDelete(trip.TripId, trip.tripName)}  >Delete</button>&nbsp;
+                                <button className="btn btn-danger" onClick={(id) => this.handleDelete(trip.tripId, trip.tripName)}  >Delete</button>&nbsp;
                             </td>
                         </tr>    
                     )}

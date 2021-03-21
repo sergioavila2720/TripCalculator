@@ -45,7 +45,7 @@ export class FetchExpenses extends Component {
                 </div>
                 {contents}
 
-                <button className="btn btn-info" onClick={this.calculateExpenses}>Calculate</button>
+                <button className="btn btn-info" disabled={Object.keys(this.state.expenses).length === 0 ? true : false} onClick={this.calculateExpenses}>Calculate</button>
                 {contents2}                
                 
             </div>

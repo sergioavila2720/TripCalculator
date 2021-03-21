@@ -54,7 +54,7 @@ namespace TripCalc.Controllers
         [HttpGet("calculate/trip={id}")]
         public ActionResult<IEnumerable<string>> CalculateTripEvenly(int id)
         {
-            return HelperFunc(id).ToList();
+            return CalculateEvenly(id).ToList();
         }
 
         // PUT: api/ExpensesApi/5
@@ -141,7 +141,7 @@ namespace TripCalc.Controllers
             return _context.Expenses.Any(e => e.ExpenseId == id);
         }
 
-        private List<string> HelperFunc(int id)
+        private List<string> CalculateEvenly(int id)
         {
             //Get expenses based on trip id
             List<Expense> expenses = _context.Expenses.Where(t0 => t0.Trip.TripId == id)
@@ -150,16 +150,16 @@ namespace TripCalc.Controllers
 
             // total cost by count of Stundents
             double totalTripCost = expenses.FirstOrDefault().Trip.TripCost;
-            double average = totalTripCost / expenses.GroupBy(t0 => t0.StudentId).Count();                      
-            
-            // get a list containing the student's name sum of expenses and order them by smaller to larger to be able to tell debtors and creditors appart 
-            var query = (from ex in expenses
-                                 join st in _context.Students
-                                 on ex.StudentId equals st.StudentId
-                                 group ex by st.Name into g
-                                 select new { name = g.Key, sum = g.Sum(t0 => t0.Price), paidAvgDiff =  (g.Sum(t0 => t0.Price)) - average }).OrderBy(t2 =>t2.paidAvgDiff).ToList();
+            double average = totalTripCost / expenses.GroupBy(t0 => t0.StudentId).Count();
 
-            // cast the query to a helper function because var are read-only
+            //// get a list containing the student's name sum of expenses and order them by smaller to larger to be able to tell debtors and creditors appart 
+            var query = (from ex in expenses
+                         join st in _context.Students
+                         on ex.StudentId equals st.StudentId
+                         group ex by st.Name into g
+                         select new { name = g.Key, sum = g.Sum(t0 => t0.Price), paidAvgDiff = (g.Sum(t0 => t0.Price)) - average }).OrderBy(t2 => t2.paidAvgDiff).ToList();
+
+            // cast the query to a helper class because var are read-only
             List<StudentExpenses> StudentTotals = new List<StudentExpenses>();
             foreach (var student in query)
             {
@@ -168,7 +168,7 @@ namespace TripCalc.Controllers
                     name = student.name,
                     sum = student.sum,
                     paidAvgDiff = student.paidAvgDiff
-                });  
+                });
 
             }
 
@@ -183,7 +183,58 @@ namespace TripCalc.Controllers
                 debt = Math.Min(-(StudentTotals[i].paidAvgDiff), StudentTotals[j].paidAvgDiff);
                 StudentTotals[i].paidAvgDiff += debt; // owes money
                 StudentTotals[j].paidAvgDiff -= debt; // is owed money 
-                output.Add(StudentTotals[i].name + " owes " + "$" +debt + " to " + StudentTotals[j].name );
+
+                if (debt != 0)
+                    output.Add(StudentTotals[i].name + " owes " + "$" + debt + " to " + StudentTotals[j].name);
+                // increment and decrement debits and credits
+                if (StudentTotals[i].paidAvgDiff == 0)
+                    i++;
+
+                if (StudentTotals[j].paidAvgDiff == 0)
+                    j--;
+            };
+            string defaultStr = "No one owes money!";
+            if (output.Count() == 0)
+                output.Add(defaultStr);
+            return output;
+        }
+
+        // Made a modified version of the calculate method for testing purposes
+        public static List<string> CalculateEvenlyFuncForTest(List<Expense> expenses, List<Student> students)
+        {
+
+            double totalTripCost = expenses.FirstOrDefault().Trip.TripCost;
+            double average = totalTripCost / expenses.GroupBy(t0 => t0.StudentId).Count();                      
+            
+            var query = (from ex in expenses
+                                 join st in students
+                                 on ex.StudentId equals st.StudentId
+                                 group ex by st.Name into g
+                                 select new { name = g.Key, sum = g.Sum(t0 => t0.Price), paidAvgDiff =  (g.Sum(t0 => t0.Price)) - average }).OrderBy(t2 =>t2.paidAvgDiff).ToList();
+
+            List<StudentExpenses> StudentTotals = new List<StudentExpenses>();
+            foreach (var student in query)
+            {
+                StudentTotals.Add(new StudentExpenses()
+                {
+                    name = student.name,
+                    sum = student.sum,
+                    paidAvgDiff = student.paidAvgDiff
+                });  
+
+            }
+
+            int i = 0; // owes money
+            int j = StudentTotals.Count() - 1; // is owed
+            double debt = 0.0;
+            List<string> output = new List<string>();
+            while (i < j)
+            {
+                debt = Math.Min(-(StudentTotals[i].paidAvgDiff), StudentTotals[j].paidAvgDiff);
+                StudentTotals[i].paidAvgDiff += debt; // owes money
+                StudentTotals[j].paidAvgDiff -= debt; // is owed money 
+                if (debt != 0)
+                    output.Add(StudentTotals[i].name + " owes " + "$" +debt + " to " + StudentTotals[j].name );
                 // increment and decrement debits and credits
                 if (StudentTotals[i].paidAvgDiff == 0)
                     i++;
@@ -191,6 +242,9 @@ namespace TripCalc.Controllers
                 if (StudentTotals[j].paidAvgDiff == 0)
                     j--;
             };
+            string defaultStr = "No one owes money!";
+            if (output.Count() == 0)
+                output.Add(defaultStr);
             return output;
         }     
 
